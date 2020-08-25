@@ -10,10 +10,12 @@ SERVER = "192.168.178.108"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
-PATH="/home/user/server/files/"
+PATH="/home/mauro/server/files/"
 END="!FINISH"
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 server.bind(ADDR)
 
 def Saver(conn,addr, connected):
@@ -59,12 +61,6 @@ def handle_client(conn, addr):
     connected = True
     while connected:
         msg=conn.recv(HEADER).decode(FORMAT)
-
-        #gestione messaggi
-        #file: carica file
-        #D: scarica file
-        #L: lista file
-        #S: stato server
         if msg==DISCONNECT_MESSAGE:
             print(f"{addr[0]} disconnected")
             conn.send("Disconnessione effettuata".encode(FORMAT))
@@ -82,7 +78,7 @@ def handle_client(conn, addr):
         else:
             print(f"{addr[0]}?query=Unknown [{msg}]")
             conn.send("Comando non riconosciuto".encode(FORMAT))
-    conn.close()
+        conn.close()
 def start():
     server.listen()
     print(f"[LISTENING] Server is listening on {SERVER}")
