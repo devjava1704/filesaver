@@ -42,7 +42,6 @@ def Send(conn,addr):
         conn.send(l)
         l=f.read(HEADER)
     f.close()
-    conn.send(END.encode(FORMAT))
     print(f"{addr[0]}?status=download completed")
 
 def List():
@@ -61,6 +60,7 @@ def handle_client(conn, addr):
     connected = True
     while connected:
         msg=conn.recv(HEADER).decode(FORMAT)
+        print(msg)
         if msg==DISCONNECT_MESSAGE:
             print(f"{addr[0]} disconnected")
             conn.send("Disconnessione effettuata".encode(FORMAT))
