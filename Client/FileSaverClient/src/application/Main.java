@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 
 import application.utils.ServerUtils;
@@ -17,18 +18,15 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) {
 		Main.primaryStage=primaryStage;
-		Main.primaryStage.setTitle("FileSaver");
+		Main.primaryStage.setTitle("test");
 		initLayout();
-		;
+		
 		ServerUtils server= new ServerUtils("192.168.178.108", 7002);
 		
 		
-		//TEST
-		
-		System.out.println(server.getServerStatus()+"\n");
-		
-		
-		System.out.println(server.getFileList());
+		server.uploadFile(new File("/home/mauro/Scrivania/server.py"));
+
+
 		
 		server.disconnect();
 
